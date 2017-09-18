@@ -74,21 +74,26 @@ func (s *server) annotations(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		ars := []AnnotationResponse{}
-
-		for _, event := range s.events {
-			event.Annotation = ar.Annotation
-			event.Annotation.ShowLine = true
-			ars = append(ars, event)
-		}
-
-		if err := json.NewEncoder(w).Encode(ars); err != nil {
+		evs := s.filterEvents(ar.Annotation, ar.Range.From, ar.Range.To)
+		if err := json.NewEncoder(w).Encode(evs); err != nil {
 			log.Printf("json enc: %+v", err)
 		}
 	default:
 		http.Error(w, "bad method; supported OPTIONS, POST", http.StatusBadRequest)
 		return
 	}
+}
+
+func (s *server) filterEvents(a Annotation, from, to time.Time) []AnnotationResponse {
+	events := []AnnotationResponse{}
+	for _, event := range s.events {
+		event.Annotation = a
+		event.Annotation.ShowLine = true
+		if event.Time > from.Unix()*1000 && event.Time < to.Unix()*1000 {
+			events = append(events, event)
+		}
+	}
+	return events
 }
 
 // annResp isn't required; it just codifies a standard AnnotationResponse
