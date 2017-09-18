@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"log"
 	"net/http"
 	"time"
 )
@@ -22,5 +23,7 @@ func main() {
 	// initialize routes, and start http server
 	http.HandleFunc("/", cors(s.root))
 	http.HandleFunc("/annotations", cors(s.annotations))
-	http.ListenAndServe(":8000", nil)
+	if err := http.ListenAndServe(":8000", nil); err != nil {
+		log.Fatal(err)
+	}
 }
