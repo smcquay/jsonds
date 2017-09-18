@@ -29,7 +29,7 @@ func (s *server) seed(max int) {
 	expansion := 20 * time.Minute
 	n := time.Now().Add(-(expansion * time.Duration(max)))
 	for i := 0; i < max; i++ {
-		t := n.Add(time.Duration(i) * expansion)
+		t := n.Add(time.Duration(i+1) * expansion)
 		s.events = append(s.events, annResp(t, i))
 		s.i++
 	}
