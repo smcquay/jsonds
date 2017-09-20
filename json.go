@@ -30,6 +30,8 @@ type Annotation struct {
 
 // AnnotationResponse contains all the information needed to render an
 // annotation event.
+//
+// https://github.com/grafana/simple-json-datasource#annotation-api
 type AnnotationResponse struct {
 	// The original annotation sent from Grafana.
 	Annotation Annotation `json:"annotation"`

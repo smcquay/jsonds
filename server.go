@@ -100,7 +100,8 @@ func (s *server) filterEvents(a Annotation, from, to time.Time) []AnnotationResp
 // between the seed and generate funcs.
 func annResp(t time.Time, i int) AnnotationResponse {
 	return AnnotationResponse{
-		// Grafana expects unix microseconds
+		// Grafana expects unix milliseconds:
+		// https://github.com/grafana/simple-json-datasource#annotation-api
 		Time: t.Unix() * 1000,
 
 		Title: fmt.Sprintf("event %04d", i),
