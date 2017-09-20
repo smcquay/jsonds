@@ -60,6 +60,7 @@ func (s *server) generate(period time.Duration) {
 //
 // otherwise it emits "Unknown error"
 func (s *server) root(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%v: %v", r.URL.Path, r.Method)
 	fmt.Fprintf(w, "ok\n")
 }
 
